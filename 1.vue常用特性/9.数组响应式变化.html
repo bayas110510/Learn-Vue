@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li :key="index" v-for='(item,index) in list'>{{item}}</li>
+        </ul>
+        <div>
+            <div>{{info.name}}</div>
+            <div>{{info.age}}</div>
+            <div>{{info.gender}}</div>
+        </div>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                list:['apple', 'orange','banana'],
+                info: {
+                    name: 'list',
+                    age:12
+                }
+            },
+            methods: {
+              
+            }
+        });
+        // vm.list[1] = 'bayas';
+        Vue.set(vm.list,2,'tunnl');
+        vm.$set(vm.list,1,'bayas');
+
+        // vm.info.gender= 'male';
+        vm.$set(vm.info,'gender','female');
+    </script>
+</body>
+</html>
