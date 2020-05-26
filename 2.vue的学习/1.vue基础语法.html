@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 使用v-cloak 能够解决 插值表达式闪烁问题 -->
+        <p v-cloak>{{ msg }}</p>
+
+        <!-- v-text 也是可以绑定数据 但是v-text没有闪烁问题的
+            v-text会覆盖元素原本的内容
+        -->
+        <h4 v-text='msg'> </h4>
+
+        <div>{{msg2}}</div>
+        <div v-text='msg2'></div>
+        <div v-html='msg2'></div>
+
+
+        <input type="button" value="按钮" v-bind:title="myTitle">
+        <!-- v-bind 是vue中 提供的用于绑定属性的指令 v-bind： === ： -->
+
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+     var vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '123',
+            msg2:'<h5>hahahahahahahahhahah bayas tunnl</h5>',
+            myTitle:'这是一个自己定义的title'
+        },
+        methods: {
+            
+        }     
+        })
+    </script>
+</body>
+</html>

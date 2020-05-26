@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>只有v-model才会实现双向数据绑定</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="msg">
+        <h4>{{msg}}</h4>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'我爱敲代码，爱学习，爱tunnl'
+            },
+            methods: {
+            }
+        })
+    </script>
+</body>
+</html>

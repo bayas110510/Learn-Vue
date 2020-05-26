@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阻止冒泡 </title>
+    <style>
+        .inner{
+            height: 150px;
+            background: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 阻止冒泡  stop-->
+        <div class="inner" @click='divHandle'>  
+            <span>阻止冒泡 </span>
+            <input type="button" value="按钮" @click.stop='btnHandle'>
+        </div>
+
+
+        <!-- 使用 .prevent 阻止默认行为 prevent -->
+        <a href="http://bys.mongol.pub" @click.prevent="linkClik" >bys.mongol.pub</a>
+    
+        <!-- 捕获机制 capture -->
+        <div class="inner" @click.capture='divHandle'> 
+            <span>捕获机制</span>
+            <input type="button" value="按钮" @click='btnHandle'>
+        </div>
+
+        <!-- self 实现只有点击当前元素的时候，才会触发事件处理函数 -->
+        <div class="inner" @click.self='divHandle'> 
+            <span>self</span>
+            <input type="button" value="按钮" @click.stop='btnHandle'>
+        </div>
+
+        <!-- once 只触发一次 -->
+        <a href="http://bys.mongol.pub" @click.once="linkClik" >bys.mongol.pub</a>
+
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+
+            },
+            methods:{
+                divHandle(){
+                    console.log('触发了，div的点击事件')
+                },
+                btnHandle(){
+                    console.log('触发了，btn的点击事件')
+                },
+                linkClik(){
+                    console.log('触发了链接点击事件')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="start">开始</button>
+        <button @click="stop">停止</button>
+        <h4>{{msg}}</h4>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        //  注意： 在 vm实例中 如果想获取data 上的数据，或者想调用methods中的方法
+        //  必须使用 this
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg: '猥琐发育，bayas&tunnl',
+                intervalId: null //在data上定义 定时器ID
+            },
+            methods:{
+                start(){
+                    console.log(this.msg)
+
+                        if(this.intervalId != null){
+                            return;
+                        }
+                        this.intervalId =  setInterval(() => {
+                            // 获取到头的第一个字符
+                        var start = this.msg.substring(0,1)
+                        // 获取到 后面的所有字符
+                        var end = this.msg.substring(1)
+                        // 重新拼接得到新的字符串，并赋值给 this.msg
+                        this.msg = end + start
+
+                        //vm 实例会监听自己身上data 中所有数据的变化 只要数据一发生变化
+                        //就会自动把 最新的数据 从data上同步到页面中去
+                    }, 100);
+                    console.log(this.intervalId)
+                },
+                stop(){ //停止定时器
+                    clearInterval(this.intervalId)
+                    // 每当清除了定时器之后，需要重新把intervalId 值为null
+                    this.intervalId = null;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

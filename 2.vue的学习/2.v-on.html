@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <div id="app">
+        <input type="button" value="按钮" name="btn" id="btn" v-on:click = "showBayas">
+        
+        <input type="button" value="按钮" name="btn" id="btn" v-on:mouseover = "showTunnl">
+     </div>
+
+        <!-- v-on 是用来绑定事件 -->
+     <script src="../vue.js"></script>
+     <script>
+         var vm = new Vue({
+             el:'#app',
+             data:{
+
+             },
+             methods:{
+                showBayas: function () {
+                    alert('bayas')
+                },
+                showTunnl: function () {
+                    alert('tunnl')
+                }
+             }
+         })
+     </script>
+</body>
+</html>

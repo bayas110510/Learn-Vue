@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中使用样式</title>
+    <style>
+        .red{
+            color: red;
+        }
+        .pink{
+            color: pink;
+        }
+        .thin{
+            font-weight: 200;
+        }
+        .italic{
+            font-style: italic;
+        }
+        .active{
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+
+        <!-- 第一种使用方式 直接传递一个数组 class需要使用 v-bind 做数据绑定 -->
+        <!-- <h1 :class="['red', 'thin']">这是一个h1标签</h1> -->
+
+
+        <!-- 在数组中使用三元表达式  但是代码量多-->
+        <!-- <h1 :class="['pink', 'thin', flag?'active':'' ]">这是一个h1标签</h1> -->
+        
+
+        <!-- 在数组中使用 对象来代替三元表达式 提高代码的可读性 -->
+        <!-- <h1 :class="['pink', 'thin', {'active':flag} ]">这是一个h1标签</h1> -->
+
+
+        <!--   -->
+        <h1 :class="{red:true, thin: true, italic:false, active: false}">这是一个h1标签</h1>
+
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                flag:true
+            },
+            methods: {
+                
+            }
+        })
+    </script>
+</body>
+</html>
