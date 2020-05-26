@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <table cellspacing="0" cellpadding="20" border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Like</th>
+                </tr>
+                <tbody>
+                    <tr v-for="(item,index) in user">
+                        <td>{{item.id}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.like}}</td>
+                    </tr>
+                </tbody>
+            </thead>
+        </table>
+    </div>
+
+    <script src="../vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                user:[
+                    {
+                        id: 1,
+                        name: 'bayas',
+                        gender: '男',
+                        like: 'football'
+                    },
+                    {
+                        id: 2,
+                        name: 'tunnl',
+                        gender: '女',
+                        like: 'phone'
+                    }
+                ]
+            },
+            methods:{
+
+            }
+        })
+    </script>
+</body>
+</html>
