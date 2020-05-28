@@ -19,14 +19,16 @@
                 </label>
                 <label>
                     Name:
-                    <input type="text" class="form-control" v-model="name">
+                    <input type="text" class="form-control" v-model="name" @keyUp.enter="add">
+                                                            <!-- @keyUp绑定键盘弹起事件 然后绑定enter键 就能按回车键添加 -->
                 </label>
 
-                <input type="button" value="添加" class="btn btn-primary" @click='add'>
+                <input type="button" value="添加" class="btn btn-primary" @click='add()'>
 
                 <label>
                     搜索名称关键字:
-                    <input type="text" class="form-control" v-model="keywords">
+                    <!-- Vue中所有的指令，在调用的时候，都已 v- 开头  -->
+                    <input type="text" class="form-control" v-model="keywords" id="search" v-focus v-color>
                 </label>
             </div>
         </div>
@@ -47,7 +49,7 @@
                 <tr v-for="(item,index) in search(keywords)" :key='item.id'>
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
-                    <td>{{item.ctime}}</td>
+                    <td>{{item.ctime | dateFormat('')}}</td>
                     <td>
                         <a href="#" @click.prevent ="del(item.id)">删除</a>
                         <!-- prevent是阻止默认行为 要是不加的话会点击后自动更新 -->
@@ -57,8 +59,69 @@
         </table>
     </div>
 
+    <div id="app2">
+        <h3>{{ dt | dateFormat }}</h3>
+    </div>
+
     <script src="../vue.js"></script>
     <script>
+        // 定义一个全局的过滤器,进行时间的格式化
+        Vue.filter('dateFormat', function (datestr,pattern=""){
+            // 根据给定的时间字符串， 得到特定的时间
+            var dt = new Date(datestr)
+
+            // yyyy-mm-dd
+            var y = dt.getFullYear()
+            var m = dt.getMonth() + 1
+            var d = dt.getDate() 
+
+            
+
+            if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                return `${y}-${m}-${d}`
+            }else{
+                var hh = dt.getHours()
+                var mm = dt.getMinutes()
+                var ss = dt.getSeconds()
+
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+            }
+        })
+
+
+        // 全局自定义按键修饰符
+        // Vue.config.keyCodes.f2 = 113;
+
+        // 使用 Vue.directive()  全局定义指令 v-focus
+        // 其中 参数1：指令名称 在定义的时候 在指令的名称前面不需要加 v- 前缀
+        // 但是 在调用的时候 必须 在指令名称前 加上 v- 前缀来进行调用
+        // 参数2 是一个对象 这个对象身上 有一些指令相关的函数 这些函数可以在特定的阶段 执行相关的操作
+         Vue.directive( 'focus', {
+        //      bind: function (el) { // 每当指令绑定到元素上的时候，会立即执行这个bind函数 只执行一次
+        //         // 在每一个函数中 第一个参数 永远是el 表示被绑定了指令的那个元素 这个el参数是一个原生的js对象
+        //         // 在元素 刚绑定了指令的时候，还没有 插入到 Dom中去 这时候 调用 focus方法没有作用
+        //         // 因为一个元素 只要插入DOM之后 才能获取焦点
+        //         el.focus()
+        //      },
+             inserted: function (el) { //inserted 表示元素 插入到 DOM中的时候 会执行inserted 函数 （触发一次）
+                el.focus(el)
+             },
+            //  updated: function () { //当VNode更新的时候，会执行 updated 可能会触发多次
+                 
+            //  }
+
+         } )
+
+         Vue.directive( 'color', {
+             bind: function (el) {
+                 el.style.color = 'red'
+             }
+         } )
+
+         //  原生js实现表单自动获取焦点事件
+        document.getElementById('search').focus();
+
+
         var vm = new Vue({
             el:'#app',
             data:{
@@ -135,20 +198,46 @@
                 }
             }
         })
+
+        
+
+        
+
+
+        // 定义一个私有的过滤器
+        var vm2 = new Vue({
+            el:'#app2',
+            data:{
+                dt: new Date()
+            },
+            methods:{
+
+            },
+            filters: {  //定义私有过滤器  过滤器有两个条件 [过滤器名称 和 处理函数]
+                dateFormat:function(datestr, pattern = '') {
+                    var dt = new Date(datestr)
+
+                    // yyyy-mm-dd
+                    var y = dt.getFullYear()
+                    var m = (dt.getMonth() + 1).toString().padStart(2, '0') //2020-5-8 9:7:5 这样的格式转换成2020-05-08 09:07:05
+                    var d = dt.getDate().toString().padStart(2, '0')
+
+                    //   
+
+
+
+                        if(pattern.toLowerCase() === 'yyyy-mm-dd'){
+                            return `${y}-${m}-${d}`
+                        }else{
+                            var hh = dt.getHours().toString().padStart(2, '0')
+                            var mm = dt.getMinutes().toString().padStart(2, '0')
+                            var ss = dt.getSeconds().toString().padStart(2, '0')
+
+                            return `${y}-${m}-${d} ${hh}:${mm}:${ss} ~~~~~~~~~`
+                        }
+                }
+            }
+        })
     </script>
 </body>
-</html>
-
-
-<!-- Vue.js里允许你自定义过滤器 可被用作一些常见的文本格式化 过滤器可以用在两个地方
-mustache插值和v-bind表达式，过滤器应该被添加在JavaScript表达式的尾部，由管道符指示
--->
-
-<!-- 过滤器调用时候的格式  {{ name | 过滤器名称 }} -->
-<!-- 定义过滤器的定义语法  
-    
-    过滤器中function，第一个参数，已经被规定死了，永远都是 过滤器管道符前面 传递过来的数据
-    Vue.filter('过滤器名称'， function（data）{
-
-}) 
--->
+</html> 
