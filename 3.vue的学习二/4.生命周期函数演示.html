@@ -65,6 +65,7 @@
             updated () {
                 console.log(' 界面上元素内容 ' + document.getElementById('by').innerText)
                 console.log('data中的msg数据是：' + this.msg)
+                // updated事件执行的时候，页面和data 数据已经保持同步了，都是最新的
             }
         })
     </script>
